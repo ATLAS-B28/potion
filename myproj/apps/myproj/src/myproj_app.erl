@@ -1,18 +1,19 @@
-%%%-------------------------------------------------------------------
-%% @doc myproj public API
-%% @end
-%%%-------------------------------------------------------------------
 
 -module(myproj_app).
+-export([fac/1, mult/2, convert/2, convert_length/1]).
 
--behaviour(application).
+fac(1) ->
+    1;
+fac(N) ->
+    N * fac(N-1).
 
--export([start/2, stop/1]).
+mult(X,Y) ->
+    X * Y.
 
-start(_StartType, _StartArgs) ->
-    myproj_sup:start_link().
+convert(N, centimeter) ->
+    N * 2.54.
 
-stop(_State) ->
-    ok.
-
-%% internal functions
+convert_length({centimeter, X}) ->
+    {inch, X / 2.54};
+convert_length({inch, Y}) ->
+    {centimeter, Y * 2.54}.
