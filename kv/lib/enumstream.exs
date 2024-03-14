@@ -33,16 +33,49 @@ defmodule KV.EnumStream do
   #end
 
   #Enum.find(list, fun): Finds the first element that meets the given condition.
-  def find_first_even(list) do
-    Enum.find(list, fn(number) -> rem(number, 2) == 0 end)
+  #def find_first_even(list) do
+  #  Enum.find(list, fn(item) -> rem(item, 2) == 0 end)
+  #end
+
+  #def find_first_a(list) do
+  #  Enum.find(list, fn(char) -> String.starts_with?(char,"a") end)
+  #end
+
+  #This means that when performing multiple operations with Enum,
+  #each operation is going to generate an intermediate list until
+  #we reach the result
+
+  #eager evalution
+  #def eager_check(_list) do
+   # odd? = fn x -> rem(x ,2) != 0 end
+   # 1..100_00 |> Enum.map(&(&1 * 3)) |> Enum.filter(odd?) |> Enum.sum()
+  #end
+
+  #streams - Streams are lazy, composable enumerables.
+  #and lazy ecaluation
+  #Instead of generating intermediate lists, streams build a series of
+  #computations that are invoked only when we pass
+  #the underlying stream to the Enum module. Streams are
+  #useful when working with large, possibly infinite, collections.
+  #def lazy_eval() do
+   #odd? = fn (item) -> rem(item, 2) != 0  end
+   #1..100_00 |> Stream.map(&(&1 * 5)) |> Stream.filter(odd?)
+  #end
+  #Many functions in the Stream module accept any enumerable
+  #as an argument and return a stream as a result.
+  #It also provides functions for creating streams.
+  #like Stream.cycle/1
+  def cycling() do
+    #stream = Stream.cycle([1,2,3,4,5]) <- don't use Enum.take()
+    stream1 = Stream.unfold("Aditya", &String.next_codepoint/1)
+    #Enum.take(stream, 10)
+    Enum.take(stream1, 6)
   end
 
-  def find_first_a(list) do
-    Enum.find(list, fn(char) -> String.starts_with?(char,"a") end)
-  end
 end
 
-my_list = [1,2,3,4]
+
+#my_list = [1,2,3,4]
 #my_list = [" hello "," world "]
 #double_and_uppercase = KV.EnumStream.double_and_uppercase(my_list)
 #IO.inspect(double_and_uppercase)
@@ -53,7 +86,12 @@ my_list = [1,2,3,4]
 #IO.inspect(sum_list)
 #IO.inspect(find_max)
 
-found = KV.EnumStream.find_first_even(my_list)
-found2 = KV.EnumStream.find_first_a(["b","a","c"])
-IO.inspect(found)
-IO.inspect(found2)
+#found = KV.EnumStream.find_first_even(my_list)
+#found2 = KV.EnumStream.find_first_a(["b","a","c"])
+#IO.inspect(found)
+#IO.inspect(found2)
+#found3 = KV.EnumStream.lazy_eval()
+#IO.inspect(found3)
+
+cycling_func = KV.EnumStream.cycling()
+IO.inspect(cycling_func)

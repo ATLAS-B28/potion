@@ -1,0 +1,41 @@
+iex(1)> spawn(fn -> 1 + 2 end)
+#PID<0.110.0>
+iex(2)> pid = spawn(fn -> 1 + 2 end)
+#PID<0.111.0>
+iex(3)> Process.alive?(pid)
+false
+iex(4)> self()
+#PID<0.109.0>
+iex(5)> Process.alive?(self())                                                                                             
+true
+iex(6)> send(self(), {:hello, :world})                                                                                     
+{:hello, :world}
+iex(7)> reveive do                                                                                                         
+...(7)> {:hello, msg} -> msg                                                                                               
+...(7)> {:world, _msg} -> "won't match"                                                                                    
+...(7)> end                                                                                                                
+error: undefined function reveive/1 (there is no such import)
+└─ iex:7
+
+** (CompileError) cannot compile code (errors have been logged)
+
+iex(7)> receive do                                                                                                         
+...(7)> {:hello, msg} -> msg                                                                                               
+...(7)> {:world, _msg} -> "won't match"                                                                                    
+...(7)> end                                                                                                                
+:world
+iex(8)> receive do                                                                                                         
+...(8)> {:hello, msg} -> msg
+...(8)> after
+...(8)> 1_000 -> "nothing after 1s"
+...(8)> end
+"nothing after 1s"
+iex(9)> parent = self()
+#PID<0.109.0>
+iex(10)> spawn(fn -> send(parent,{:hello, self()}) end)
+#PID<0.113.0>
+iex(11)> receive do
+...(11)> {:hello, pid} -> "Got hello from #{inspect pid}"
+...(11)> end
+"Got hello from #PID<0.113.0>"
+iex(12)>
