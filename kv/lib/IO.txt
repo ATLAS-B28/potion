@@ -1,0 +1,12 @@
+File operations
+The File module contains functions that allow us 
+to open files as IO devices. By default, files 
+are opened in binary mode, which requires 
+developers to use the specific IO.binread/2 
+and IO.binwrite/2 functions from the IO module
+
+The majority of the functions in the File 
+module expect paths as arguments. Most commonly, 
+those paths will be regular binaries. 
+The Path module provides facilities for
+working with such paths

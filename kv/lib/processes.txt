@@ -39,3 +39,35 @@ iex(11)> receive do
 ...(11)> end
 "Got hello from #PID<0.113.0>"
 iex(12)>
+
+State  - 
+{:ok, pid} = KV.Processes.start_link()                                                                
+{:ok, #PID<0.117.0>}
+iex(2)> send(pid, {:get, :hello, self()})                                                                     
+{:get, :hello, #PID<0.116.0>}
+iex(3)> flush()                                                                                               
+nil
+:ok
+iex(4)> send(pid, {:put, :hello, :world})                                                                     
+{:put, :hello, :world}
+iex(5)> send(pid, {:get, :hello, self()}                                                                      
+...(5)> )                                                                                                     
+{:get, :hello, #PID<0.116.0>}
+iex(6)> flush()                                                                                               
+:world
+:ok
+iex(7)> Process.register(pid, :processes)                                                                     
+true
+iex(8)> send(:processes, {:get, :hello, self()})                                                              
+{:get, :hello, #PID<0.116.0>}
+iex(9)> flush()                                                                                               
+:world
+:ok
+iex(10)>                                                                                                      
+nil
+iex(11)> {:ok, pid} = Agent.start_link(fn -> %{} end)                                                         
+{:ok, #PID<0.118.0>}
+iex(12)> Agent.update(pid, fn map -> Map.put(map, :hello, :world) end)                                        
+:ok
+iex(13)> Agent.get(pid, fn map -> Map.get(map, :hello) end)                                                   
+:world

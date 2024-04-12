@@ -1,0 +1,30 @@
+alias: The alias keyword is used to 
+create an alias for a module. This allows 
+you to refer to the module using a shorter
+name. For example: 
+
+alias MyApp.User
+
+user = User.new()e:
+
+require: The require keyword is used to specify 
+that a module is required for compilation. 
+This is useful when you want to use macros or 
+functions that are defined in the module. 
+For example:
+
+require MyApp.User
+
+user = MyApp.User.new()
+
+import: The import keyword is used to bring 
+specific functions or macros from a module 
+into the current scope. This allows you to 
+call the functions or macros directly without 
+prefixing them with the module name. 
+For example:
+
+import MyApp.User
+
+user = new()
+
